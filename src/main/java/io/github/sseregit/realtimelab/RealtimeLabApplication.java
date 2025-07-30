@@ -1,0 +1,13 @@
+package io.github.sseregit.realtimelab;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class RealtimeLabApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(RealtimeLabApplication.class, args);
+    }
+
+}

@@ -1,2 +1,2 @@
 ###
-GET http://localhost:8080/longpolling
+GET http://localhost:8080/longpolling?userId=hello

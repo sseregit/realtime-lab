@@ -3,6 +3,7 @@ package io.github.sseregit.realtimelab.longpolling;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,13 @@ class LongPollingController {
     @GetMapping("/longpolling")
     DeferredResult<String> longPolling(@RequestParam String userId) {
         log.info("클라이언트 [{}] 대기 시작", userId);
-        DeferredResult<String> result = new DeferredResult<>(5000L, "no message");
+        DeferredResult<String> result = new DeferredResult<>(5000L);
+
+        result.onTimeout(() -> {
+            log.info("타임아웃 처리 - userId: {}", userId);
+            result.setResult("no message");
+            waitingUsers.remove(userId);
+        });
 
         result.onCompletion(() -> {
             log.info("클라이언트 [{}] 응답 완료 또는 타임아웃", userId);
